@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlit as st 
 import pandas as pd 
 import numpy as np 
 from sklearn import datasets
@@ -132,6 +132,7 @@ elif st.session_state.page == "result":
     if st.button("Go Back"):
         st.session_state.page = "form"
         st.rerun()
+        
 
 
 
