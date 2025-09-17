@@ -3,14 +3,39 @@ import pandas as pd
 import numpy as np 
 from sklearn import datasets
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
+
+#to track website traffic in Google Analytics
+st.markdown("""
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MZMG2MK4JZ"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MZMG2MK4JZ');
+    </script> 
+""", unsafe_allow_html=True)
+
 
 df = pd.read_csv("heart.csv")
 X = df.drop("target", axis=1)
 y = df["target"]
 
-model = RandomForestRegressor()
-model.fit(X, y)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
+
+model = RandomForestRegressor(random_state=42)
+model.fit(X_train, y_train)
+
+#Predictions:
+y_prediction = model.predict(X_test)
+
+print("R^2 Value: ", r2_score(y_test, y_prediction))
+  
 #since we didn't yet launch our app, we will not be in session state
 #once we launch, it will go to our home page which is 'form'
 if "page" not in st.session_state:  
